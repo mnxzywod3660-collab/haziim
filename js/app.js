@@ -62,7 +62,7 @@ function downloadJSON(data, filename) {
 }
 
 function safeQuery(promise) {
-  return promise.catch(function (err) {
+  return promise.then(undefined, function (err) {
     return { error: { message: window.i18n.t('error.networkError') } };
   });
 }
