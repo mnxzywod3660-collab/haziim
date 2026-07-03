@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="app.title">المستودع الرئيسي - الإعدادات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/settings.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="index.html" id="warehouseTitle" data-i18n="app.name">المستودع الرئيسي</a></h1>
+      <nav>
+        <a href="index.html" data-i18n="nav.dashboard">لوحة التحكم</a>
+        <a href="history.html" data-i18n="nav.history">سجل الحركات</a>
+        <a href="settings.html" class="active" data-i18n="nav.settings">الإعدادات</a>
+        <button class="btn-lang" id="langToggle" onclick="toggleLanguage()">English</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="settings-group">
+      <h3 data-i18n="settings.warehouseName">اسم المستودع</h3>
+      <div class="form-group">
+        <label for="warehouseNameInput" data-i18n="settings.warehouseName">اسم المستودع</label>
+        <input type="text" id="warehouseNameInput" data-i18n-placeholder="settings.warehousePlaceholder" placeholder="أدخل اسم المستودع" maxlength="100" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveWarehouseName()" data-i18n="btn.save">حفظ</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3 data-i18n="settings.lowStockThreshold">حد المخزون المنخفض</h3>
+      <div class="form-group">
+        <label for="thresholdInput" data-i18n="settings.lowStockThreshold">حد المخزون المنخفض</label>
+        <input type="number" id="thresholdInput" min="1" max="9999" />
+        <p class="help-text" data-i18n="settings.thresholdHelp">المنتجات التي تقل كميتها عن هذا الرقم ستظهر باللون الأحمر.</p>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="saveThreshold()" data-i18n="settings.save">حفظ الإعدادات</button>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3 data-i18n="settings.language">اللغة</h3>
+      <div class="form-group">
+        <label for="langSelect" data-i18n="settings.language">اللغة</label>
+        <select id="langSelect" onchange="changeLanguage(this.value)">
+          <option value="ar" data-i18n="lang.arabic">العربية</option>
+          <option value="en" data-i18n="lang.english">English</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3 data-i18n="settings.theme">المظهر</h3>
+      <div class="form-group">
+        <label for="themeSelect" data-i18n="settings.theme">المظهر</label>
+        <select id="themeSelect" onchange="changeTheme(this.value)">
+          <option value="light" data-i18n="theme.light">فاتح</option>
+          <option value="dark" data-i18n="theme.dark">داكن</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="settings-group">
+      <h3 data-i18n="settings.backup">النسخ الاحتياطي</h3>
+      <p class="help-text" style="margin-bottom:10px;" data-i18n="settings.exportDesc">تصدير جميع البيانات إلى ملف JSON.</p>
+      <div class="backup-actions">
+        <button class="btn btn-primary" onclick="exportDatabase()" data-i18n="btn.exportDb">تصدير قاعدة البيانات</button>
+        <span class="file-input-wrap">
+          <button class="btn btn-secondary" data-i18n="btn.importDb">استيراد قاعدة البيانات</button>
+          <input type="file" id="importFileInput" accept=".json" onchange="importDatabase(this)" />
+        </span>
+      </div>
+    </div>
+
+    <div class="settings-group" id="archivedSection">
+      <h3 data-i18n="settings.archivedProducts">المنتجات المؤرشفة</h3>
+      <div class="table-wrapper" style="margin-top:10px;">
+        <table>
+          <thead>
+            <tr>
+              <th data-i18n="table.productName">اسم المنتج</th>
+              <th data-i18n="table.currentQuantity">الكمية الحالية</th>
+              <th data-i18n="product.archiveDate">تاريخ الأرشفة</th>
+              <th data-i18n="table.actions">الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="archivedTableBody">
+            <tr><td colspan="4" class="loading" data-i18n="loading.settings">جاري تحميل الإعدادات...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+  async function loadWarehouseName() {
+    try {
+      var res = await supabase.from('settings').select('warehouse_name').limit(1).maybeSingle();
+      if (res.data && res.data.warehouse_name) {
+        var el = document.getElementById('warehouseTitle');
+        if (el) el.textContent = res.data.warehouse_name;
+      }
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () { loadWarehouseName(); });
+  document.addEventListener('languageChanged', function () { loadWarehouseName(); });
+  </script>
+</body>
+</html>

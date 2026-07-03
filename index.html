@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="app.title">المستودع الرئيسي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/products.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="index.html" id="warehouseTitle" data-i18n="app.name">المستودع الرئيسي</a></h1>
+      <nav>
+        <a href="index.html" class="active" data-i18n="nav.dashboard">لوحة التحكم</a>
+        <a href="history.html" data-i18n="nav.history">سجل الحركات</a>
+        <a href="settings.html" data-i18n="nav.settings">الإعدادات</a>
+        <button class="btn-lang" id="langToggle" onclick="toggleLanguage()">English</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="cards" id="dashboardCards">
+      <div class="card">
+        <h3 data-i18n="dashboard.totalProducts">إجمالي المنتجات</h3>
+        <div class="value" id="totalProducts">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.totalQuantity">إجمالي الكمية</h3>
+        <div class="value" id="totalQuantity">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.addedToday">وارد اليوم</h3>
+        <div class="value green" id="addedToday">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.removedToday">منصرف اليوم</h3>
+        <div class="value red" id="removedToday">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.totalArchived">المؤرشفة</h3>
+        <div class="value orange" id="totalArchived">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.monthIn">وارد هذا الشهر</h3>
+        <div class="value green" id="monthIn">0</div>
+      </div>
+      <div class="card">
+        <h3 data-i18n="dashboard.monthOut">منصرف هذا الشهر</h3>
+        <div class="value red" id="monthOut">0</div>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input type="text" class="search-box" id="searchBox"
+        data-i18n-placeholder="search.placeholder" placeholder="ابحث عن منتج..."
+        oninput="handleSearch()" />
+      <select class="sort-select" id="sortSelect" onchange="handleSort()">
+        <option value="name" data-i18n="sort.name">ترتيب حسب الاسم</option>
+        <option value="quantity" data-i18n="sort.quantity">ترتيب حسب الكمية</option>
+        <option value="updated_at" data-i18n="sort.updated">ترتيب حسب آخر تحديث</option>
+      </select>
+      <button class="btn btn-primary" onclick="openAddProductModal()" data-i18n="product.add">+ إضافة منتج</button>
+    </div>
+
+    <div class="export-row">
+      <button class="btn btn-secondary btn-sm" onclick="exportProductsToExcel()" data-i18n="product.export">تصدير المنتجات إلى CSV</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.productName">اسم المنتج</th>
+            <th data-i18n="table.currentQuantity">الكمية الحالية</th>
+            <th data-i18n="table.arrivalDate">تاريخ الوصول</th>
+            <th data-i18n="table.lastUpdated">آخر تحديث</th>
+            <th data-i18n="table.actions">الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="productsTableBody">
+          <tr><td colspan="5" class="loading" data-i18n="loading.products">جاري تحميل المنتجات...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination" id="paginationControls" style="display:none;">
+      <button class="page-btn" id="prevPage" onclick="changePage(currentPage - 1)" data-i18n="btn.prev">السابق</button>
+      <div id="pageNumbers" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+      <button class="page-btn" id="nextPage" onclick="changePage(currentPage + 1)" data-i18n="btn.next">التالي</button>
+      <span class="page-info" id="pageInfo"></span>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <h3 data-i18n="dashboard.charts">الرسوم البيانية</h3>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h4 data-i18n="dashboard.stockByProduct">المخزون حسب المنتج</h4>
+          <canvas id="stockChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4 data-i18n="dashboard.weeklyOut">المنصرف هذا الأسبوع</h4>
+          <canvas id="weeklyChart"></canvas>
+        </div>
+        <div class="chart-card">
+          <h4 data-i18n="dashboard.monthlyOut">المنصرف هذا الشهر</h4>
+          <canvas id="monthlyChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Product Modal -->
+  <div class="modal-overlay" id="addProductModal">
+    <div class="modal">
+      <h2 data-i18n="modal.addProduct">إضافة منتج</h2>
+      <div class="form-group">
+        <label for="productName" data-i18n="form.productName">اسم المنتج</label>
+        <input type="text" id="productName" data-i18n-placeholder="form.productName" placeholder="اسم المنتج" />
+      </div>
+      <div class="form-group">
+        <label for="productQuantity" data-i18n="form.quantity">الكمية</label>
+        <input type="number" id="productQuantity" min="0" placeholder="0" />
+      </div>
+      <div class="form-group">
+        <label for="productDate" data-i18n="form.arrivalDate">تاريخ الوصول</label>
+        <input type="date" id="productDate" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('addProductModal')" data-i18n="btn.cancel">إلغاء</button>
+        <button class="btn btn-primary" onclick="saveProduct()" data-i18n="btn.save">حفظ</button>
+      </div>
+      <div class="error-msg" id="addProductError"></div>
+    </div>
+  </div>
+
+  <!-- Edit Product Modal -->
+  <div class="modal-overlay" id="editProductModal">
+    <div class="modal">
+      <h2 data-i18n="modal.editProduct">تعديل المنتج</h2>
+      <input type="hidden" id="editProductId" />
+      <div class="form-group">
+        <label for="editProductName" data-i18n="form.productName">اسم المنتج</label>
+        <input type="text" id="editProductName" data-i18n-placeholder="form.productName" placeholder="اسم المنتج" />
+      </div>
+      <div class="form-group">
+        <label for="editProductDate" data-i18n="form.arrivalDate">تاريخ الوصول</label>
+        <input type="date" id="editProductDate" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('editProductModal')" data-i18n="btn.cancel">إلغاء</button>
+        <button class="btn btn-primary" onclick="updateProduct()" data-i18n="btn.save">حفظ</button>
+      </div>
+      <div class="error-msg" id="editProductError"></div>
+    </div>
+  </div>
+
+  <!-- Add Stock Modal -->
+  <div class="modal-overlay" id="addStockModal">
+    <div class="modal">
+      <h2 data-i18n="modal.addStock">إضافة مخزون</h2>
+      <input type="hidden" id="addStockProductId" />
+      <p id="addStockProductName" style="margin-bottom:12px;font-weight:500;"></p>
+      <div class="form-group">
+        <label for="addStockQuantity" data-i18n="form.quantityReceived">الكمية الواردة</label>
+        <input type="number" id="addStockQuantity" min="1" placeholder="0" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('addStockModal')" data-i18n="btn.cancel">إلغاء</button>
+        <button class="btn btn-success" onclick="confirmAddStock()" data-i18n="btn.save">حفظ</button>
+      </div>
+      <div class="error-msg" id="addStockError"></div>
+    </div>
+  </div>
+
+  <!-- Remove Stock Modal -->
+  <div class="modal-overlay" id="removeStockModal">
+    <div class="modal">
+      <h2 data-i18n="modal.removeStock">صرف من المخزون</h2>
+      <input type="hidden" id="removeStockProductId" />
+      <input type="hidden" id="removeStockCurrentQty" />
+      <p id="removeStockProductName" style="margin-bottom:12px;font-weight:500;"></p>
+      <p id="removeStockCurrentQtyDisplay" style="margin-bottom:12px;color:var(--text-secondary);font-size:0.9rem;"></p>
+      <div class="form-group">
+        <label for="removeStockQuantity" data-i18n="form.quantityToRemove">الكمية المراد صرفها</label>
+        <input type="number" id="removeStockQuantity" min="1" placeholder="0" />
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('removeStockModal')" data-i18n="btn.cancel">إلغاء</button>
+        <button class="btn btn-danger" onclick="confirmRemoveStock()" data-i18n="btn.remove">صرف</button>
+      </div>
+      <div class="error-msg" id="removeStockError"></div>
+    </div>
+  </div>
+
+  <!-- Archive Confirmation Modal -->
+  <div class="modal-overlay" id="archiveModal">
+    <div class="modal">
+      <h2 data-i18n="modal.archiveProduct">أرشفة المنتج</h2>
+      <input type="hidden" id="archiveProductId" />
+      <p id="archiveProductName" style="margin-bottom:12px;color:var(--text-primary);"></p>
+      <p style="margin-bottom:20px;color:var(--red);" data-i18n="confirm.archiveWarning">سيتم إخفاء هذا المنتج من لوحة التحكم.</p>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('archiveModal')" data-i18n="btn.cancel">إلغاء</button>
+        <button class="btn btn-danger" onclick="confirmArchiveProduct()" data-i18n="btn.archive">أرشفة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Details Modal -->
+  <div class="modal-overlay" id="productDetailsModal">
+    <div class="modal wide">
+      <h2 data-i18n="dashboard.productDetails">تفاصيل المنتج</h2>
+      <p id="detailProductName" style="font-size:1.1rem;font-weight:700;margin-bottom:16px;color:var(--text-heading);"></p>
+      <div class="detail-grid">
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.currentQuantity">الكمية الحالية</div>
+          <div class="detail-value blue" id="detailCurrentQty">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.arrivalDate">تاريخ الوصول</div>
+          <div class="detail-value" id="detailArrivalDate">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.lastUpdate">آخر تحديث</div>
+          <div class="detail-value" id="detailLastUpdate">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.totalIn">إجمالي الوارد</div>
+          <div class="detail-value green" id="detailTotalIn">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.totalOut">إجمالي المنصرف</div>
+          <div class="detail-value red" id="detailTotalOut">-</div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label" data-i18n="product.remainingStock">المخزون المتبقي</div>
+          <div class="detail-value blue" id="detailRemaining">-</div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="closeModal('productDetailsModal')" data-i18n="btn.cancel">إغلاق</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+  async function loadWarehouseName() {
+    try {
+      var res = await supabase.from('settings').select('warehouse_name').limit(1).maybeSingle();
+      if (res.data && res.data.warehouse_name) {
+        var el = document.getElementById('warehouseTitle');
+        if (el) el.textContent = res.data.warehouse_name;
+      }
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () { loadWarehouseName(); });
+  document.addEventListener('languageChanged', function () { loadWarehouseName(); });
+  </script>
+</body>
+</html>

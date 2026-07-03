@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="app.title">المستودع الرئيسي - سجل الحركات</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script defer src="js/supabase.js"></script>
+  <script defer src="js/i18n.js"></script>
+  <script defer src="js/history.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="index.html" id="warehouseTitle" data-i18n="app.name">المستودع الرئيسي</a></h1>
+      <nav>
+        <a href="index.html" data-i18n="nav.dashboard">لوحة التحكم</a>
+        <a href="history.html" class="active" data-i18n="nav.history">سجل الحركات</a>
+        <a href="settings.html" data-i18n="nav.settings">الإعدادات</a>
+        <button class="btn-lang" id="langToggle" onclick="toggleLanguage()">English</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="tabs" id="historyTabs">
+      <button class="tab active" data-period="today" onclick="switchTab('today')" data-i18n="tab.today">اليوم</button>
+      <button class="tab" data-period="week" onclick="switchTab('week')" data-i18n="tab.week">هذا الأسبوع</button>
+      <button class="tab" data-period="month" onclick="switchTab('month')" data-i18n="tab.month">هذا الشهر</button>
+      <button class="tab" data-period="all" onclick="switchTab('all')" data-i18n="tab.all">كل الفترات</button>
+    </div>
+
+    <div class="filters-row">
+      <div class="filter-group">
+        <label for="filterProduct" data-i18n="filter.productName">اسم المنتج</label>
+        <input type="text" id="filterProduct" data-i18n-placeholder="search.placeholderHistory" placeholder="ابحث باسم المنتج..." oninput="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label for="filterFrom" data-i18n="filter.fromDate">من تاريخ</label>
+        <input type="date" id="filterFrom" onchange="applyFilters()" />
+      </div>
+      <div class="filter-group">
+        <label for="filterTo" data-i18n="filter.toDate">إلى تاريخ</label>
+        <input type="date" id="filterTo" onchange="applyFilters()" />
+      </div>
+    </div>
+
+    <div class="export-row">
+      <button class="btn btn-secondary btn-sm" onclick="exportHistoryToExcel()" data-i18n="product.exportHistory">تصدير السجل إلى CSV</button>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th data-i18n="table.date">التاريخ</th>
+            <th data-i18n="table.time">الوقت</th>
+            <th data-i18n="table.productName">اسم المنتج</th>
+            <th data-i18n="table.type">النوع</th>
+            <th data-i18n="table.quantity">الكمية</th>
+          </tr>
+        </thead>
+        <tbody id="historyTableBody">
+          <tr><td colspan="5" class="loading" data-i18n="loading.history">جاري تحميل السجل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="report-section" id="weeklyReport">
+      <h3 data-i18n="report.weekly">ملخص الأسبوع</h3>
+      <div id="weeklyReportContent">
+        <p style="color:var(--text-secondary);" data-i18n="report.selectWeek">اختر تبويب "هذا الأسبوع" لعرض الملخص</p>
+      </div>
+    </div>
+
+    <div class="report-section" id="monthlyReport">
+      <h3 data-i18n="report.monthly">ملخص الشهر</h3>
+      <div id="monthlyReportContent">
+        <p style="color:var(--text-secondary);" data-i18n="report.selectMonth">اختر تبويب "هذا الشهر" لعرض الملخص</p>
+      </div>
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script>
+  async function loadWarehouseName() {
+    try {
+      var res = await supabase.from('settings').select('warehouse_name').limit(1).maybeSingle();
+      if (res.data && res.data.warehouse_name) {
+        var el = document.getElementById('warehouseTitle');
+        if (el) el.textContent = res.data.warehouse_name;
+      }
+    } catch (e) {}
+  }
+  document.addEventListener('DOMContentLoaded', function () { loadWarehouseName(); });
+  document.addEventListener('languageChanged', function () { loadWarehouseName(); });
+  </script>
+</body>
+</html>

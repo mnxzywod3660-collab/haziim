@@ -1,0 +1,200 @@
+{
+  "app": {
+    "title": "المستودع الرئيسي",
+    "name": "المستودع الرئيسي"
+  },
+  "nav": {
+    "dashboard": "لوحة التحكم",
+    "history": "سجل الحركات",
+    "settings": "الإعدادات"
+  },
+  "lang": {
+    "switch": "English",
+    "label": "اللغة",
+    "arabic": "العربية",
+    "english": "English"
+  },
+  "theme": {
+    "label": "المظهر",
+    "light": "فاتح",
+    "dark": "داكن"
+  },
+  "dashboard": {
+    "totalProducts": "إجمالي المنتجات",
+    "totalQuantity": "إجمالي الكمية",
+    "addedToday": "وارد اليوم",
+    "removedToday": "منصرف اليوم",
+    "totalArchived": "المؤرشفة",
+    "monthIn": "وارد هذا الشهر",
+    "monthOut": "منصرف هذا الشهر",
+    "charts": "الرسوم البيانية",
+    "stockByProduct": "المخزون حسب المنتج",
+    "weeklyOut": "المنصرف هذا الأسبوع",
+    "monthlyOut": "المنصرف هذا الشهر",
+    "noData": "لا توجد بيانات كافية للرسم البياني",
+    "productDetails": "تفاصيل المنتج"
+  },
+  "search": {
+    "placeholder": "ابحث عن منتج...",
+    "placeholderHistory": "ابحث باسم المنتج..."
+  },
+  "sort": {
+    "name": "ترتيب حسب الاسم",
+    "quantity": "ترتيب حسب الكمية",
+    "updated": "ترتيب حسب آخر تحديث"
+  },
+  "product": {
+    "add": "+ إضافة منتج",
+    "edit": "تعديل",
+    "archive": "أرشفة",
+    "restore": "استعادة",
+    "addStock": "إضافة مخزون",
+    "removeStock": "صرف مخزون",
+    "export": "تصدير المنتجات إلى CSV",
+    "exportHistory": "تصدير السجل إلى CSV",
+    "archivedProducts": "المنتجات المؤرشفة",
+    "noArchived": "لا توجد منتجات مؤرشفة.",
+    "archiveDate": "تاريخ الأرشفة",
+    "details": "التفاصيل",
+    "totalIn": "إجمالي الوارد",
+    "totalOut": "إجمالي المنصرف",
+    "remainingStock": "المخزون المتبقي",
+    "currentQuantity": "الكمية الحالية",
+    "arrivalDate": "تاريخ الوصول",
+    "lastUpdate": "آخر تحديث"
+  },
+  "table": {
+    "productName": "اسم المنتج",
+    "currentQuantity": "الكمية الحالية",
+    "arrivalDate": "تاريخ الوصول",
+    "lastUpdated": "آخر تحديث",
+    "actions": "الإجراءات",
+    "date": "التاريخ",
+    "time": "الوقت",
+    "type": "النوع",
+    "quantity": "الكمية"
+  },
+  "modal": {
+    "addProduct": "إضافة منتج",
+    "editProduct": "تعديل المنتج",
+    "addStock": "إضافة مخزون",
+    "removeStock": "صرف من المخزون",
+    "archiveProduct": "أرشفة المنتج",
+    "productDetails": "تفاصيل المنتج"
+  },
+  "form": {
+    "productName": "اسم المنتج",
+    "quantity": "الكمية",
+    "arrivalDate": "تاريخ الوصول",
+    "quantityReceived": "الكمية الواردة",
+    "quantityToRemove": "الكمية المراد صرفها"
+  },
+  "btn": {
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "remove": "صرف",
+    "archive": "أرشفة",
+    "restore": "استعادة",
+    "exportDb": "تصدير قاعدة البيانات",
+    "importDb": "استيراد قاعدة البيانات",
+    "prev": "السابق",
+    "next": "التالي",
+    "page": "صفحة",
+    "of": "من"
+  },
+  "tab": {
+    "today": "اليوم",
+    "week": "هذا الأسبوع",
+    "month": "هذا الشهر",
+    "all": "كل الفترات"
+  },
+  "report": {
+    "weekly": "ملخص الأسبوع",
+    "monthly": "ملخص الشهر",
+    "selectWeek": "اختر تبويب \"هذا الأسبوع\" لعرض الملخص",
+    "selectMonth": "اختر تبويب \"هذا الشهر\" لعرض الملخص",
+    "noRemovals": "لم يتم صرف أي منتجات في هذه الفترة"
+  },
+  "filter": {
+    "productName": "اسم المنتج",
+    "fromDate": "من تاريخ",
+    "toDate": "إلى تاريخ"
+  },
+  "loading": {
+    "products": "جاري تحميل المنتجات...",
+    "history": "جاري تحميل السجل...",
+    "settings": "جاري تحميل الإعدادات...",
+    "chart": "جاري تحميل الرسم البياني..."
+  },
+  "empty": {
+    "products": "لا توجد منتجات.",
+    "history": "لا توجد سجلات مطابقة.",
+    "noProducts": "لم يتم العثور على منتجات."
+  },
+  "confirm": {
+    "archiveProduct": "هل أنت متأكد من أرشفة",
+    "archiveWarning": "سيتم إخفاء هذا المنتج من لوحة التحكم.",
+    "importDb": "سيتم استبدال جميع البيانات الحالية. هل أنت متأكد؟"
+  },
+  "stock": {
+    "currentStock": "المخزون الحالي:",
+    "items": "منتج(ات)"
+  },
+  "type": {
+    "in": "وارد",
+    "out": "منصرف"
+  },
+  "error": {
+    "requiredName": "اسم المنتج مطلوب.",
+    "negativeQuantity": "لا يمكن أن تكون الكمية سالبة.",
+    "validQuantity": "يرجى إدخال كمية صالحة.",
+    "insufficientStock": "المخزون غير كاف! لديك فقط {qty} {items} في المخزون.",
+    "productNotFound": "المنتج غير موجود.",
+    "duplicateProduct": "يوجد منتج بنفس الاسم بالفعل.",
+    "networkError": "خطأ في الشبكة. تحقق من الاتصال.",
+    "importError": "حدث خطأ أثناء الاستيراد.",
+    "exportError": "حدث خطأ أثناء التصدير.",
+    "noDataToExport": "لا توجد بيانات للتصدير.",
+    "chartError": "حدث خطأ أثناء تحميل الرسم البياني."
+  },
+  "success": {
+    "productAdded": "تمت إضافة المنتج بنجاح.",
+    "productUpdated": "تم تحديث المنتج بنجاح.",
+    "stockAdded": "تمت إضافة {qty} {items} إلى المخزون.",
+    "stockRemoved": "تم صرف {qty} {items} من المخزون.",
+    "productArchived": "تم أرشفة المنتج بنجاح.",
+    "productRestored": "تمت استعادة المنتج بنجاح.",
+    "settingsSaved": "تم حفظ الإعدادات بنجاح.",
+    "warehouseUpdated": "تم تحديث اسم المستودع بنجاح.",
+    "exportSuccess": "تم تصدير البيانات بنجاح.",
+    "importSuccess": "تم استيراد البيانات بنجاح."
+  },
+  "info": {
+    "noExportProducts": "لا توجد منتجات للتصدير.",
+    "noExportHistory": "لا توجد سجلات للتصدير."
+  },
+  "reportLabel": {
+    "removed": "المنصرف:"
+  },
+  "settings": {
+    "warehouseName": "اسم المستودع",
+    "warehousePlaceholder": "أدخل اسم المستودع",
+    "lowStockThreshold": "حد المخزون المنخفض",
+    "thresholdHelp": "المنتجات التي تقل كميتها عن هذا الرقم ستظهر باللون الأحمر.",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "save": "حفظ الإعدادات",
+    "archivedProducts": "المنتجات المؤرشفة",
+    "noArchived": "لا توجد منتجات مؤرشفة.",
+    "restoreConfirm": "هل أنت متأكد من استعادة",
+    "backup": "النسخ الاحتياطي",
+    "exportDesc": "تصدير جميع البيانات (المنتجات، السجل، الإعدادات) إلى ملف JSON.",
+    "importDesc": "استيراد البيانات من ملف JSON. سيتم استبدال جميع البيانات الحالية."
+  },
+  "pagination": {
+    "showing": "عرض",
+    "to": "إلى",
+    "of": "من",
+    "entries": "مدخل"
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "app": {
+    "title": "Main Warehouse",
+    "name": "Main Warehouse"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "history": "History",
+    "settings": "Settings"
+  },
+  "lang": {
+    "switch": "العربية",
+    "label": "Language",
+    "arabic": "العربية",
+    "english": "English"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "dashboard": {
+    "totalProducts": "Total Products",
+    "totalQuantity": "Total Quantity",
+    "addedToday": "Added Today",
+    "removedToday": "Removed Today",
+    "totalArchived": "Archived",
+    "monthIn": "Monthly In",
+    "monthOut": "Monthly Out",
+    "charts": "Charts",
+    "stockByProduct": "Stock by Product",
+    "weeklyOut": "Weekly OUT",
+    "monthlyOut": "Monthly OUT",
+    "noData": "Not enough data for chart",
+    "productDetails": "Product Details"
+  },
+  "search": {
+    "placeholder": "Search products...",
+    "placeholderHistory": "Search by product..."
+  },
+  "sort": {
+    "name": "Sort by Name",
+    "quantity": "Sort by Quantity",
+    "updated": "Sort by Last Updated"
+  },
+  "product": {
+    "add": "+ Add Product",
+    "edit": "Edit",
+    "archive": "Archive",
+    "restore": "Restore",
+    "addStock": "Add Stock",
+    "removeStock": "Remove Stock",
+    "export": "Export Products to CSV",
+    "exportHistory": "Export History to CSV",
+    "archivedProducts": "Archived Products",
+    "noArchived": "No archived products.",
+    "archiveDate": "Archive Date",
+    "details": "Details",
+    "totalIn": "Total IN",
+    "totalOut": "Total OUT",
+    "remainingStock": "Remaining Stock",
+    "currentQuantity": "Current Quantity",
+    "arrivalDate": "Arrival Date",
+    "lastUpdate": "Last Update"
+  },
+  "table": {
+    "productName": "Product Name",
+    "currentQuantity": "Current Quantity",
+    "arrivalDate": "Arrival Date",
+    "lastUpdated": "Last Updated",
+    "actions": "Actions",
+    "date": "Date",
+    "time": "Time",
+    "type": "Type",
+    "quantity": "Quantity"
+  },
+  "modal": {
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "addStock": "Add Stock",
+    "removeStock": "Remove Stock",
+    "archiveProduct": "Archive Product",
+    "productDetails": "Product Details"
+  },
+  "form": {
+    "productName": "Product Name",
+    "quantity": "Quantity",
+    "arrivalDate": "Arrival Date",
+    "quantityReceived": "Quantity Received",
+    "quantityToRemove": "Quantity to Remove"
+  },
+  "btn": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "remove": "Remove",
+    "archive": "Archive",
+    "restore": "Restore",
+    "exportDb": "Export Database",
+    "importDb": "Import Database",
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page",
+    "of": "of"
+  },
+  "tab": {
+    "today": "Today",
+    "week": "This Week",
+    "month": "This Month",
+    "all": "All Time"
+  },
+  "report": {
+    "weekly": "Weekly Summary",
+    "monthly": "Monthly Summary",
+    "selectWeek": "Select \"This Week\" tab to see summary.",
+    "selectMonth": "Select \"This Month\" tab to see summary.",
+    "noRemovals": "No items removed in this period."
+  },
+  "filter": {
+    "productName": "Product Name",
+    "fromDate": "From Date",
+    "toDate": "To Date"
+  },
+  "loading": {
+    "products": "Loading products...",
+    "history": "Loading history...",
+    "settings": "Loading settings...",
+    "chart": "Loading chart..."
+  },
+  "empty": {
+    "products": "No products found.",
+    "history": "No matching records.",
+    "noProducts": "No products found."
+  },
+  "confirm": {
+    "archiveProduct": "Are you sure you want to archive",
+    "archiveWarning": "This product will be hidden from the dashboard.",
+    "importDb": "All existing data will be replaced. Are you sure?"
+  },
+  "stock": {
+    "currentStock": "Current stock:",
+    "items": "item(s)"
+  },
+  "type": {
+    "in": "IN",
+    "out": "OUT"
+  },
+  "error": {
+    "requiredName": "Product name is required.",
+    "negativeQuantity": "Quantity cannot be negative.",
+    "validQuantity": "Please enter a valid quantity.",
+    "insufficientStock": "Insufficient stock! You have only {qty} {items} in stock.",
+    "productNotFound": "Product not found.",
+    "duplicateProduct": "A product with the same name already exists.",
+    "networkError": "Network error. Check your connection.",
+    "importError": "An error occurred during import.",
+    "exportError": "An error occurred during export.",
+    "noDataToExport": "No data to export.",
+    "chartError": "An error occurred while loading the chart."
+  },
+  "success": {
+    "productAdded": "Product added successfully.",
+    "productUpdated": "Product updated successfully.",
+    "stockAdded": "Added {qty} {items} to stock.",
+    "stockRemoved": "Removed {qty} {items} from stock.",
+    "productArchived": "Product archived successfully.",
+    "productRestored": "Product restored successfully.",
+    "settingsSaved": "Settings saved successfully.",
+    "warehouseUpdated": "Warehouse name updated successfully.",
+    "exportSuccess": "Data exported successfully.",
+    "importSuccess": "Data imported successfully."
+  },
+  "info": {
+    "noExportProducts": "No products to export.",
+    "noExportHistory": "No history records to export."
+  },
+  "reportLabel": {
+    "removed": "Removed:"
+  },
+  "settings": {
+    "warehouseName": "Warehouse Name",
+    "warehousePlaceholder": "Enter warehouse name",
+    "lowStockThreshold": "Low Stock Threshold",
+    "thresholdHelp": "Products with quantity below this number will appear in red.",
+    "language": "Language",
+    "theme": "Theme",
+    "save": "Save Settings",
+    "archivedProducts": "Archived Products",
+    "noArchived": "No archived products.",
+    "restoreConfirm": "Are you sure you want to restore",
+    "backup": "Backup",
+    "exportDesc": "Export all data (products, history, settings) to a JSON file.",
+    "importDesc": "Import data from a JSON file. This will replace all existing data."
+  },
+  "pagination": {
+    "showing": "Showing",
+    "to": "to",
+    "of": "of",
+    "entries": "entries"
+  }
+}
