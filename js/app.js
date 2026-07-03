@@ -61,10 +61,12 @@ function downloadJSON(data, filename) {
   URL.revokeObjectURL(url);
 }
 
-function safeQuery(promise) {
-  return promise.then(undefined, function (err) {
+async function safeQuery(promise) {
+  try {
+    return await promise;
+  } catch (err) {
     return { error: { message: window.i18n.t('error.networkError') } };
-  });
+  }
 }
 
 /* ============================================
